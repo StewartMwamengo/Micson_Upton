@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micson Upton — Artist</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Syne:wght@300;400;700;800&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#050508;
+  --void:#0A0A0F;
+  --dim:#111118;
+  --panel:#16161F;
+  --border:rgba(255,255,255,0.06);
+  --white:#F2F0EB;
+  --off:#A09A8E;
+  --gold:#D4A853;
+  --ember:#C45C2A;
+  --mist:rgba(242,240,235,0.12);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Syne',sans-serif;
+  background:var(--void);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* Custom cursor */
+#cursor{
+  width:10px;height:10px;
+  background:var(--gold);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s,width 0.2s,height 0.2s,background 0.2s;
+  mix-blend-mode:screen;
+}
+#cursor-ring{
+  width:36px;height:36px;
+  border:1px solid rgba(212,168,83,0.5);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all 0.18s ease;
+}
+body.hovering #cursor{width:6px;height:6px;background:var(--ember)}
+body.hovering #cursor-ring{width:50px;height:50px;border-color:rgba(196,92,42,0.6)}
+
+/* Noise overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.4;
+  pointer-events:none;
+  z-index:1000;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.75rem 3rem;
+  background:linear-gradient(to bottom,rgba(5,5,8,0.9),transparent);
+}
+.nav-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:400;
+  letter-spacing:0.04em;
+  color:var(--white);
+}
+.nav-name span{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  color:var(--off);text-decoration:none;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  font-weight:700;transition:color 0.25s;
+}
+.nav-links a:hover{color:var(--white)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:flex-end;
+  padding:0 3rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-gradient{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 70% at 70% 40%, rgba(196,92,42,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(212,168,83,0.08) 0%, transparent 50%),
+    linear-gradient(to bottom, #050508 0%, #0D0C14 50%, #050508 100%);
+}
+.hero-lines{
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    90deg,rgba(255,255,255,0.015) 0px,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 80px
+  );
+}
+.hero-circle{
+  position:absolute;
+  width:700px;height:700px;
+  border-radius:50%;
+  border:1px solid rgba(212,168,83,0.07);
+  top:50%;right:-100px;
+  transform:translateY(-50%);
+}
+.hero-circle2{
+  position:absolute;
+  width:500px;height:500px;
+  border-radius:50%;
+  border:1px solid rgba(212,168,83,0.04);
+  top:50%;right:30px;
+  transform:translateY(-50%);
+}
+.hero-content{position:relative;max-width:800px}
+.hero-label{
+  font-size:0.7rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;font-weight:700;
+  display:flex;align-items:center;gap:1rem;
+}
+.hero-label::before{content:'';width:40px;height:1px;background:var(--gold)}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(4rem,9vw,8.5rem);
+  font-weight:900;line-height:0.88;
+  color:var(--white);
+  margin-bottom:1.5rem;
+}
+.hero-title em{
+  font-style:italic;font-weight:400;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(242,240,235,0.4);
+}
+.hero-sub{
+  font-family:'EB Garamond',serif;
+  font-size:1.2rem;color:var(--off);
+  line-height:1.8;max-width:480px;
+  margin-bottom:3rem;font-style:italic;
+}
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.btn-gold{
+  background:var(--gold);color:var(--black);
+  padding:1rem 2.5rem;font-size:0.72rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  border:none;cursor:none;font-family:'Syne',sans-serif;
+  font-weight:700;transition:all 0.25s;
+}
+.btn-gold:hover{background:var(--ember);color:var(--white)}
+.btn-ghost{
+  background:transparent;color:var(--off);
+  padding:1rem 2.5rem;font-size:0.72rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  border:1px solid var(--border);cursor:none;
+  font-family:'Syne',sans-serif;font-weight:700;
+  transition:all 0.25s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);color:var(--white)}
+.hero-scroll{
+  position:absolute;bottom:3rem;right:3rem;
+  writing-mode:vertical-rl;
+  font-size:0.65rem;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(255,255,255,0.2);
+  display:flex;align-items:center;gap:0.75rem;
+}
+.hero-scroll::after{
+  content:'';width:1px;height:60px;
+  background:linear-gradient(to bottom,rgba(212,168,83,0.6),transparent);
+  animation:scrollDrop 2s ease-in-out infinite;
+}
+@keyframes scrollDrop{0%,100%{opacity:0.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.15)}}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap{
+  background:var(--gold);
+  padding:0.85rem 0;overflow:hidden;
+  display:flex;white-space:nowrap;
+}
+.marquee-track{
+  display:flex;gap:0;
+  animation:marquee 18s linear infinite;
+}
+.marquee-track span{
+  font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;
+  font-weight:700;color:var(--black);
+  padding:0 2.5rem;
+}
+.marquee-track span.dot{padding:0;color:rgba(0,0,0,0.35)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── ABOUT ─── */
+.about{
+  padding:7rem 3rem;
+  display:grid;grid-template-columns:1fr 1.2fr;
+  gap:6rem;align-items:center;
+  max-width:1200px;margin:0 auto;
+}
+.about-left{}
+.about-tag{
+  font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;font-weight:700;
+}
+.about-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:700;line-height:1.05;
+  margin-bottom:2rem;
+}
+.about-title em{font-style:italic;color:var(--gold)}
+.about-body{
+  font-family:'EB Garamond',serif;
+  font-size:1.15rem;color:var(--off);
+  line-height:1.9;margin-bottom:1.25rem;
+}
+.about-right{}
+.about-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:2.5rem;
+  position:relative;
+}
+.about-card::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,var(--gold),transparent);
+}
+.about-genres{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem}
+.genre-tag{
+  padding:0.4rem 1rem;
+  border:1px solid var(--border);
+  font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--off);font-weight:700;
+  transition:all 0.2s;
+}
+.genre-tag:hover{border-color:var(--gold);color:var(--gold)}
+.about-quote{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1.4rem;
+  color:var(--white);line-height:1.5;
+  margin-bottom:1.25rem;
+}
+.about-quote-attr{
+  font-size:0.72rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;
+}
+
+/* ─── EP SECTION ─── */
+.ep-section{
+  padding:5rem 3rem;
+  background:var(--dim);
+  position:relative;overflow:hidden;
+}
+.ep-glow{
+  position:absolute;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(196,92,42,0.12) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.ep-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1.5fr;
+  gap:5rem;align-items:center;position:relative;
+}
+.ep-cover{
+  aspect-ratio:1;
+  background:linear-gradient(135deg,#1A1014 0%,#2D1810 40%,#1A0E14 70%,#0D0A10 100%);
+  position:relative;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border);
+}
+.ep-cover::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 40% 50%,rgba(196,92,42,0.3) 0%,transparent 65%),
+    radial-gradient(ellipse 50% 40% at 70% 30%,rgba(212,168,83,0.12) 0%,transparent 60%);
+}
+.ep-cover-text{
+  position:relative;text-align:center;
+  z-index:2;padding:2rem;
+}
+.ep-cover-text h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;font-weight:900;
+  font-style:italic;color:var(--white);
+  line-height:1;margin-bottom:0.5rem;
+  text-shadow:0 0 60px rgba(212,168,83,0.4);
+}
+.ep-cover-text p{
+  font-size:0.68rem;letter-spacing:0.35em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;
+}
+.ep-cover-badge{
+  position:absolute;top:1rem;right:1rem;
+  background:var(--gold);color:var(--black);
+  font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:0.35rem 0.75rem;font-weight:700;
+}
+.ep-info{}
+.ep-tag{
+  font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;font-weight:700;
+}
+.ep-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:900;line-height:1;
+  margin-bottom:0.5rem;
+}
+.ep-artist{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1.1rem;
+  color:var(--gold);margin-bottom:1.5rem;
+}
+.ep-desc{
+  font-family:'EB Garamond',serif;
+  font-size:1.1rem;color:var(--off);
+  line-height:1.9;margin-bottom:2rem;
+}
+.tracklist{list-style:none;margin-bottom:2rem}
+.track{
+  display:flex;align-items:center;gap:1rem;
+  padding:0.85rem 0;
+  border-bottom:1px solid var(--border);
+  transition:all 0.2s;cursor:none;
+}
+.track:hover{padding-left:0.5rem}
+.track:hover .track-num{color:var(--gold)}
+.track:hover .track-name{color:var(--white)}
+.track-num{
+  font-size:0.72rem;color:rgba(255,255,255,0.2);
+  font-weight:700;min-width:1.5rem;
+}
+.track-name{
+  font-family:'EB Garamond',serif;
+  font-size:1rem;color:var(--off);
+  flex:1;transition:color 0.2s;letter-spacing:0.02em;
+}
+.track-type{
+  font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:rgba(212,168,83,0.5);font-weight:700;
+}
+.track-play{
+  width:28px;height:28px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--off);cursor:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.6rem;transition:all 0.2s;
+  flex-shrink:0;
+}
+.track-play:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.ep-links{display:flex;gap:0.75rem;flex-wrap:wrap}
+.ep-link{
+  padding:0.65rem 1.25rem;
+  border:1px solid var(--border);
+  font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--off);font-weight:700;
+  text-decoration:none;transition:all 0.2s;cursor:none;
+}
+.ep-link:hover{background:var(--panel);color:var(--white);border-color:rgba(255,255,255,0.15)}
+
+/* ─── POETRY ─── */
+.poetry{
+  padding:7rem 3rem;
+  max-width:1100px;margin:0 auto;
+}
+.poetry-header{
+  display:flex;justify-content:space-between;
+  align-items:flex-end;margin-bottom:4rem;
+}
+.poetry-title-wrap .section-tag{
+  font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1rem;font-weight:700;display:block;
+}
+.poetry-title-wrap h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3rem);font-weight:700;
+}
+.poetry-title-wrap h2 em{font-style:italic;color:var(--gold)}
+.poetry-note{
+  font-family:'EB Garamond',serif;
+  font-style:italic;font-size:0.95rem;
+  color:var(--off);max-width:240px;text-align:right;line-height:1.7;
+}
+.poems-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.poem-card{
+  background:var(--void);
+  padding:2.5rem 2rem;
+  transition:background 0.3s;
+}
+.poem-card:hover{background:var(--panel)}
+.poem-num{
+  font-size:0.65rem;letter-spacing:0.25em;color:rgba(212,168,83,0.4);
+  font-weight:700;text-transform:uppercase;margin-bottom:1.25rem;
+}
+.poem-card h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:700;font-style:italic;
+  margin-bottom:1rem;color:var(--white);
+}
+.poem-excerpt{
+  font-family:'EB Garamond',serif;
+  font-size:1rem;color:var(--off);
+  line-height:1.8;margin-bottom:1.5rem;
+  font-style:italic;
+}
+.poem-read{
+  font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);font-weight:700;
+  display:flex;align-items:center;gap:0.5rem;
+}
+.poem-read::after{content:'→';transition:transform 0.2s}
+.poem-card:hover .poem-read::after{transform:translateX(4px)}
+
+/* ─── CONTACT ─── */
+.contact{
+  background:var(--dim);
+  padding:7rem 3rem;
+  position:relative;overflow:hidden;
+}
+.contact-line{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,var(--gold),transparent);
+}
+.contact-inner{max-width:700px;margin:0 auto;text-align:center}
+.contact-tag{
+  font-size:0.68rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;font-weight:700;display:block;
+}
+.contact-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:900;line-height:0.95;
+  margin-bottom:1.5rem;
+}
+.contact-title em{font-style:italic;color:var(--gold)}
+.contact-sub{
+  font-family:'EB Garamond',serif;
+  font-style:italic;font-size:1.15rem;
+  color:var(--off);line-height:1.8;margin-bottom:3rem;
+}
+.contact-form{display:flex;flex-direction:column;gap:1rem}
+.contact-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.c-input{
+  width:100%;padding:1rem 1.25rem;
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--white);font-family:'Syne',sans-serif;
+  font-size:0.85rem;outline:none;
+  transition:border-color 0.25s;
+}
+.c-input::placeholder{color:rgba(255,255,255,0.2)}
+.c-input:focus{border-color:rgba(212,168,83,0.5)}
+textarea.c-input{resize:none;font-family:'EB Garamond',serif;font-size:1rem}
+.c-btn{
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  padding:1.1rem 3rem;
+  font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;
+  font-family:'Syne',sans-serif;font-weight:700;
+  cursor:none;align-self:center;
+  transition:all 0.25s;margin-top:0.5rem;
+}
+.c-btn:hover{background:var(--gold);color:var(--black)}
+
+/* ─── FOOTER ─── */
+footer{
+  background:var(--black);
+  padding:2.5rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);
+}
+.footer-name{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1rem;
+  color:rgba(255,255,255,0.3);
+}
+.footer-name span{color:var(--gold)}
+.footer-socials{display:flex;gap:2rem}
+.footer-socials a{
+  font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.2);text-decoration:none;
+  font-weight:700;transition:color 0.2s;cursor:none;
+}
+.footer-socials a:hover{color:var(--gold)}
+.footer-copy{font-size:0.65rem;color:rgba(255,255,255,0.15);letter-spacing:0.1em}
+
+/* ─── ANIMATIONS ─── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:768px){
+  nav{padding:1.25rem 1.5rem}
+  .nav-links{display:none}
+  .hero{padding:0 1.5rem 4rem}
+  .about{grid-template-columns:1fr;gap:3rem;padding:5rem 1.5rem}
+  .ep-inner{grid-template-columns:1fr;gap:3rem}
+  .poetry-header{flex-direction:column;gap:1rem;align-items:flex-start}
+  .poetry-note{text-align:left}
+  .poems-grid{grid-template-columns:1fr}
+  .contact-row{grid-template-columns:1fr}
+  .ep-section,.contact,.poetry{padding:5rem 1.5rem}
+  footer{flex-direction:column;gap:1.5rem;text-align:center}
+  .footer-socials{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<nav>
+  <span class="nav-name">Micson <span>Upton</span></span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#ep">No Risk At All</a></li>
+    <li><a href="#poetry">Poetry</a></li>
+    <li><a href="#contact">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-gradient"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-circle"></div>
+  <div class="hero-circle2"></div>
+  <div class="hero-content reveal">
+    <p class="hero-label">Poet · Composer · Sound Architect</p>
+    <h1 class="hero-title">Micson<br><em>Upton</em></h1>
+    <p class="hero-sub">Where silence becomes sound, and sound becomes feeling. Beats forged in solitude. Words born from depth.</p>
+    <div class="hero-actions">
+      <button class="btn-gold" onclick="document.getElementById('ep').scrollIntoView({behavior:'smooth'})">Listen to No Risk At All</button>
+      <button class="btn-ghost" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">Discover the artist</button>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Poet</span><span class="dot">◆</span>
+    <span>Beat Maker</span><span class="dot">◆</span>
+    <span>Instrumentalist</span><span class="dot">◆</span>
+    <span>No Risk At All EP</span><span class="dot">◆</span>
+    <span>Deep Emotional Music</span><span class="dot">◆</span>
+    <span>Micson Upton</span><span class="dot">◆</span>
+    <span>Poet</span><span class="dot">◆</span>
+    <span>Beat Maker</span><span class="dot">◆</span>
+    <span>Instrumentalist</span><span class="dot">◆</span>
+    <span>No Risk At All EP</span><span class="dot">◆</span>
+    <span>Deep Emotional Music</span><span class="dot">◆</span>
+    <span>Micson Upton</span><span class="dot">◆</span>
+  </div>
+</div>
+
+<!-- About -->
+<section id="about" style="background:var(--void)">
+  <div class="about">
+    <div class="about-left reveal">
+      <p class="about-tag">The artist</p>
+      <h2 class="about-title">Art born<br>from <em>depth</em></h2>
+      <p class="about-body">Micson Upton is a poet and music artist whose work lives at the crossroads of spoken word and instrumental sound — a space where raw emotion meets deliberate craft.</p>
+      <p class="about-body">Known for beats that breathe, instrumentals that ache, and verses that linger long after they've been heard, Micson creates music for those who feel deeply and say little.</p>
+      <p class="about-body">His sound is intimate. His words, unflinching.</p>
+    </div>
+    <div class="about-right reveal">
+      <div class="about-card">
+        <div class="about-quote">"I don't make music to be heard. I make it so the quiet has somewhere to go."</div>
+        <p class="about-quote-attr">— Micson Upton</p>
+        <div class="about-genres">
+          <span class="genre-tag">Beat Production</span>
+          <span class="genre-tag">Instrumentals</span>
+          <span class="genre-tag">Poetry</span>
+          <span class="genre-tag">Emotional Music</span>
+          <span class="genre-tag">Ambient</span>
+          <span class="genre-tag">Lo-fi Soul</span>
+          <span class="genre-tag">Spoken Word</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EP Section -->
+<section class="ep-section" id="ep">
+  <div class="ep-glow"></div>
+  <div class="ep-inner">
+    <div class="ep-cover reveal">
+      <div class="ep-cover-text">
+        <h2>No Risk<br>At All</h2>
+        <p>Micson Upton · EP · 2026</p>
+      </div>
+      <span class="ep-cover-badge">Out Now</span>
+    </div>
+    <div class="ep-info reveal">
+      <p class="ep-tag">Debut EP</p>
+      <h2 class="ep-title">No Risk At All</h2>
+      <p class="ep-artist">Micson Upton</p>
+      <p class="ep-desc">A collection of seven deeply personal compositions — beats layered with intention, instrumentals soaked in solitude, and verses that ask the hardest questions without flinching. <em>No Risk At All</em> is the sound of exposing parts of my consciousness, vulnerability over safety and self expression.</p>
+      <ul class="tracklist">
+        <li class="track">
+          <span class="track-num">01</span>
+          <span class="track-name">Since The Dawn</span>
+          <span class="track-type">Opening Track</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">02</span>
+          <span class="track-name">For Now</span>
+          <span class="track-type">Instrumental</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">03</span>
+          <span class="track-name">People</span>
+          <span class="track-type">Beat + Spoken Word</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">04</span>
+          <span class="track-name">This Is Life</span>
+          <span class="track-type">Title Track</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">05</span>
+          <span class="track-name">Addiction</span>
+          <span class="track-type">Instrumental</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">06</span>
+          <span class="track-name">When The Light Finds You</span>
+          <span class="track-type">Closing</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+        <li class="track">
+          <span class="track-num">07</span>
+          <span class="track-name">Effort</span>
+          <span class="track-type">Extended</span>
+          <button class="track-play" title="Play">▶</button>
+        </li>
+      </ul>
+      <div class="ep-links">
+        <a class="ep-link" href="#">Spotify</a>
+        <a class="ep-link" href="#">Apple Music</a>
+        <a class="ep-link" href="#">YouTube Music</a>
+        <a class="ep-link" href="#">SoundCloud</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Poetry Section -->
+<section id="poetry" style="background:var(--void)">
+  <div class="poetry">
+    <div class="poetry-header reveal">
+      <div class="poetry-title-wrap">
+        <span class="section-tag">The written word</span>
+        <h2>Selected <em>poems</em></h2>
+      </div>
+      <p class="poetry-note">"Poetry is the music I write when the instruments aren't enough."</p>
+    </div>
+    <div class="poems-grid reveal">
+      <div class="poem-card">
+        <p class="poem-num">Poem 001</p>
+        <h3>Mrembo Wangu</h3>
+        <p class="poem-excerpt">"You think music is the sound —<br>but I've always lived<br>in the silence between beats,<br>where everything unspoken<br>finally finds its shape."</p>
+        <span class="poem-read">Read poem</span>
+      </div>
+      <div class="poem-card">
+        <p class="poem-num">Poem 002</p>
+        <h3>No Risk At All</h3>
+        <p class="poem-excerpt">"They call it brave<br>to open yourself wide —<br>but I've bled enough<br>to know that vulnerability<br>isn't courage. It's necessity."</p>
+        <span class="poem-read">Read poem</span>
+      </div>
+      <div class="poem-card">
+        <p class="poem-num">Poem 003</p>
+        <h3>Heshimiko 😂😂</h3>
+        <p class="poem-excerpt">"Ask a guitar what it feels<br>when the chord breaks —<br>it'll answer you truthfully.<br>Strings don't know<br>how to pretend."</p>
+        <span class="poem-read">Read poem</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact" id="contact">
+  <div class="contact-line"></div>
+  <div class="contact-inner">
+    <span class="contact-tag">Get in touch</span>
+    <h2 class="contact-title">Let's <em>create</em><br>something real</h2>
+    <p class="contact-sub">For collaborations, licensing, features, bookings, or just to say something true — reach out.</p>
+    <div class="contact-form">
+      <div class="contact-row">
+        <input class="c-input" type="text" placeholder="Your name">
+        <input class="c-input" type="email" placeholder="Your email">
+      </div>
+      <input class="c-input" type="text" placeholder="Subject — what's this about?">
+      <textarea class="c-input" rows="5" placeholder="Say something honest..."></textarea>
+      <button class="c-btn">Send the message</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-name"><em>Micson <span>Upton</span></em></span>
+  <div class="footer-socials">
+    <a href="#">Instagram</a>
+    <a href="#">Spotify</a>
+    <a href="#">SoundCloud</a>
+    <a href="#">YouTube</a>
+  </div>
+  <span class="footer-copy">© 2026 Micson Upton</span>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('button,a,.poem-card,.track,.genre-tag,.ep-link').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'), i*80);
+    }
+  });
+},{threshold:0.1});
+reveals.forEach(el=>observer.observe(el));
+
+// Track play buttons (visual feedback only)
+document.querySelectorAll('.track-play').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.track-play').forEach(b=>{b.textContent='▶';b.style.background='';b.style.borderColor='';b.style.color=''});
+    this.textContent='◼';
+    this.style.background='var(--gold)';
+    this.style.borderColor='var(--gold)';
+    this.style.color='var(--black)';
+  });
+});
+</script>
+</body>
+</html>
